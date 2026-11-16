@@ -11,6 +11,8 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "u
 const productionOrigins = [
   "https://taskly.iy0306.com",
   "https://nnct-corp-guidance-2026.taskly.iy0306.com",
+  "https://policies.taskly.iy0306.com",
+  "https://auth.taskly.iy0306.com",
 ];
 
 function run(origin) {
@@ -52,6 +54,14 @@ test("content script is scoped to the exact HTTPS production origins", () => {
     "https://nnct-corp-guidance-2026.taskly.iy0306.com.evil.test",
     "https://api.nnct-corp-guidance-2026.taskly.iy0306.com",
     "https://nnct-corp-guidance-2026.taskly.iy0306.com:8443",
+    "http://policies.taskly.iy0306.com",
+    "https://dev.policies.taskly.iy0306.com",
+    "https://policies.taskly.iy0306.com.evil.test",
+    "http://auth.taskly.iy0306.com",
+    "https://taskly-auth.iy0306.com",
+    "https://taskly-auth-api.iy0306.com",
+    "https://auth.taskly.iy0306.com.evil.test",
+    "https://auth.taskly.iy0306.com:8443",
     "http://localhost:3000",
   ]) {
     assert.equal(run(origin).children.length, 0);

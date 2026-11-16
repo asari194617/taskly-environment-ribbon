@@ -2,6 +2,8 @@
   const productionOrigins = new Set([
     "https://taskly.iy0306.com",
     "https://nnct-corp-guidance-2026.taskly.iy0306.com",
+    "https://policies.taskly.iy0306.com",
+    "https://auth.taskly.iy0306.com",
   ]);
   if (!productionOrigins.has(window.location.origin)) return;
 

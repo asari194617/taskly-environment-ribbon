@@ -1,11 +1,13 @@
 # Taskly 本番環境リボン
 
-Taskly と企業ガイダンスの画面右上に、赤い「本番環境」のたすき掛けを表示する Chrome 拡張機能です。Manifest V3 のコンテンツスクリプトのみで動作し、追加の権限や通信はありません。
+Taskly、企業ガイダンス、ポリシー、認証の画面右上に、赤い「本番環境」のたすき掛けを表示する Chrome 拡張機能です。Manifest V3 のコンテンツスクリプトのみで動作し、追加の権限や通信はありません。
 
 | 対象 | URL |
 | --- | --- |
 | Taskly | https://taskly.iy0306.com/ |
 | 企業ガイダンス | https://nnct-corp-guidance-2026.taskly.iy0306.com/ |
+| ポリシー | https://policies.taskly.iy0306.com/ |
+| 認証 | https://auth.taskly.iy0306.com/login |
 
 ## インストール
 
@@ -18,7 +20,7 @@ Taskly と企業ガイダンスの画面右上に、赤い「本番環境」の�
 
 ## 検証
 
-Node.js 24 で、対象の両サイトへの表示、対象外の origin の拒否、重複表示の防止を確認します。GitHub Actions もすべてのPRとmainへの変更で同じテストを実行し、スクリプトの行・関数カバレッジ80%以上を要求します。
+Node.js 24 で、対象の4サイトへの表示、対象外の origin の拒否、重複表示の防止を確認します。GitHub Actions もすべてのPRとmainへの変更で同じテストを実行し、スクリプトの行・関数カバレッジ80%以上を要求します。
 
 ```sh
 node --test --experimental-test-coverage \
