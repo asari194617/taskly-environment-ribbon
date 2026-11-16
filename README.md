@@ -20,7 +20,7 @@ Taskly、企業ガイダンス、ポリシー、認証の画面右上に、赤�
 
 ## 検証
 
-Node.js 24 で、対象の4サイトへの表示、対象外の origin の拒否、重複表示の防止を確認します。GitHub Actions もすべてのPRとmainへの変更で同じテストを実行し、スクリプトの行・関数カバレッジ80%以上を要求します。
+Node.js 26 で、対象の4サイトへの表示、対象外の origin の拒否、重複表示の防止を確認します。GitHub Actions もすべてのPRとmainへの変更で同じテストを実行し、スクリプトの行・関数カバレッジ80%以上を要求します。
 
 ```sh
 node --test --experimental-test-coverage \
