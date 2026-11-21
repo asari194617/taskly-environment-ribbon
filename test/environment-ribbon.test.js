@@ -5,7 +5,7 @@ const test = require("node:test");
 const vm = require("node:vm");
 
 const root = path.join(__dirname, "..");
-const scriptPath = path.join(root, "production-ribbon.js");
+const scriptPath = path.join(root, "environment-ribbon.js");
 const script = fs.readFileSync(scriptPath, "utf8");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
 const productionOrigins = [
@@ -13,6 +13,12 @@ const productionOrigins = [
   "https://nnct-corp-guidance-2026.taskly.iy0306.com",
   "https://policies.taskly.iy0306.com",
   "https://auth.taskly.iy0306.com",
+];
+
+const localOrigins = productionOrigins.map((origin) => origin.replace("https://", "https://local."));
+const environments = [
+  { origins: productionOrigins, label: "本番環境", color: "#b91c1c" },
+  { origins: localOrigins, label: "開発環境", color: "#1d4ed8" },
 ];
 
 function run(origin) {
@@ -41,8 +47,8 @@ function run(origin) {
   return { children, context };
 }
 
-test("content script is scoped to the exact HTTPS production origins", () => {
-  assert.deepEqual(manifest.content_scripts[0].matches, productionOrigins.map((origin) => `${origin}/*`));
+test("content script is scoped to the exact HTTPS production and local origins", () => {
+  assert.deepEqual(manifest.content_scripts[0].matches, [...productionOrigins, ...localOrigins].map((origin) => `${origin}/*`));
   assert.equal(manifest.permissions, undefined);
   assert.equal(manifest.host_permissions, undefined);
   for (const origin of [
@@ -63,18 +69,27 @@ test("content script is scoped to the exact HTTPS production origins", () => {
     "https://auth.taskly.iy0306.com.evil.test",
     "https://auth.taskly.iy0306.com:8443",
     "http://localhost:3000",
+    "http://local.taskly.iy0306.com",
+    "https://local.taskly.iy0306.com.evil.test",
+    "https://local.taskly.iy0306.com:8443",
+    "https://local.api.taskly.iy0306.com",
+    "https://local.taskly-auth-api.iy0306.com",
   ]) {
     assert.equal(run(origin).children.length, 0);
   }
 });
 
-for (const origin of productionOrigins) {
-  test(`${origin} receives one accessible ribbon`, () => {
-    const { children, context } = run(origin);
-    assert.equal(children.length, 1);
-    assert.equal(children[0].attributes["aria-label"], "本番環境");
-    assert.equal(children[0].shadowChildren[1].textContent, "本番環境");
-    vm.runInContext(script, context, { filename: scriptPath });
-    assert.equal(children.length, 1);
-  });
+for (const { origins, label, color } of environments) {
+  for (const origin of origins) {
+    test(`${origin} receives one accessible ${label} ribbon`, () => {
+      const { children, context } = run(origin);
+      assert.equal(children.length, 1);
+      assert.equal(children[0].attributes.role, "note");
+      assert.equal(children[0].attributes["aria-label"], label);
+      assert.equal(children[0].shadowChildren[1].textContent, label);
+      assert.ok(children[0].shadowChildren[0].textContent.includes(`background: ${color};`));
+      vm.runInContext(script, context, { filename: scriptPath });
+      assert.equal(children.length, 1);
+    });
+  }
 }

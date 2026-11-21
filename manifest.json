@@ -1,17 +1,23 @@
 {
   "manifest_version": 3,
-  "name": "Taskly 本番環境リボン",
-  "version": "1.2.0",
-  "description": "Taskly、企業ガイダンス、ポリシー、認証の本番画面に「本番環境」のリボンを表示します。",
+  "name": "Taskly 環境リボン",
+  "version": "1.3.0",
+  "description": "Taskly、企業ガイダンス、ポリシー、認証の画面に本番・ローカル開発環境を表示します。",
   "content_scripts": [
     {
       "matches": [
         "https://taskly.iy0306.com/*",
         "https://nnct-corp-guidance-2026.taskly.iy0306.com/*",
         "https://policies.taskly.iy0306.com/*",
-        "https://auth.taskly.iy0306.com/*"
+        "https://auth.taskly.iy0306.com/*",
+        "https://local.taskly.iy0306.com/*",
+        "https://local.nnct-corp-guidance-2026.taskly.iy0306.com/*",
+        "https://local.policies.taskly.iy0306.com/*",
+        "https://local.auth.taskly.iy0306.com/*"
       ],
-      "js": ["production-ribbon.js"],
+      "js": [
+        "environment-ribbon.js"
+      ],
       "run_at": "document_end"
     }
   ]
