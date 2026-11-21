@@ -18,5 +18,5 @@ jobs:
       - name: Test production origins and require 80% coverage
         run: >-
           node --test --experimental-test-coverage
-          --test-coverage-include=production-ribbon.js
+          --test-coverage-include=environment-ribbon.js
           --test-coverage-lines=80 --test-coverage-functions=80 test/*.test.js
